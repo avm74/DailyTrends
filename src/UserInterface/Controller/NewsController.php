@@ -16,10 +16,23 @@ class NewsController extends AbstractController
     {
         try {
             $newsList = ($this->fetchTopNews)();
+
+            $newsArray = array_map(function($news) {
+                return [
+                    'id' => $news->getId(),
+                    'title' => $news->getTitle(),
+                    'url' => $news->getUrl(),
+                    'summary' => $news->getSummary(),
+                    'source' => $news->getSource(),
+                    'created_at' => $news->getCreatedAt()?->format('Y-m-d H:i:s'),
+                    'updated_at' => $news->getUpdatedAt()?->format('Y-m-d H:i:s')
+                ];
+            }, $newsList);
+
             return new JsonResponse([
                 'status' => 'success',
                 'total' => count($newsList),
-                'news' => $newsList
+                'news' => $newsArray
             ]);
         } catch (\Throwable $e) {
             return new JsonResponse([

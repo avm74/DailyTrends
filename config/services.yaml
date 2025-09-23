@@ -22,6 +22,7 @@ services:
     App\Application\FetchTopNews:
         arguments:
             $scrapers: !tagged_iterator app.scraper
+            $newsRepository: '@App\Infrastructure\Persistence\DoctrineNewsRepository'
 
     App\Infrastructure\Scraper\ElPaisScraper:
         tags: ["app.scraper"]

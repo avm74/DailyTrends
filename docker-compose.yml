@@ -12,6 +12,8 @@ services:
         volumes:
             - ~/.ssh:/home/$UNAME/.ssh
             - .:/var/www/casfid-technical-test
+        depends_on:
+            - database_casfid_technical_test
 
     database_casfid_technical_test:
         image: mysql:8.0

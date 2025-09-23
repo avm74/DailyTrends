@@ -21,6 +21,8 @@ class DoctrineNewsRepository implements NewsRepositoryInterface
         return $this->em->createQueryBuilder()
             ->select('n')
             ->from(News::class, 'n')
+            ->orderBy('n.createdAt', 'DESC')
+            ->addOrderBy('n.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
