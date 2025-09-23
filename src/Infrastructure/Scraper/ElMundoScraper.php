@@ -26,9 +26,10 @@ class ElMundoScraper implements ScraperInterface
             $crawler->filter('article')->each(function (Crawler $node) use (&$news, $limit) {
                 if (count($news) >= $limit) return;
 
-                $title = $node->filter('h2 a, h3 a')->text('Sin título');
-                $url = $node->filter('h2 a, h3 a')->attr('href') ?? '';
-                $summary = $node->filter('p')->text('Sin resumen');
+
+                $title = $node->filter('.ue-c-cover-content__headline')->text('Sin título');
+                $url = $node->filter('.ue-c-cover-content__link')->attr('href') ?? '';
+                $summary = $node->filter('.ue-c-cover-content__kicker')->text('Sin resumen');
 
                 if (!empty($title) && $title !== 'Sin título') {
                     $news[] = new News(
