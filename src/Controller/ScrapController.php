@@ -37,7 +37,6 @@ class ScrapController extends AbstractController
 
                 $titulo = $node->filter('h2 a, h3 a, .c_t a')->text('Sin título');
                 $enlace = $node->filter('h2 a, h3 a, .c_t a')->attr('href');
-                dd($node);
                 $resumen = $node->filter('.c_d, .c_e, p')->text('Sin resumen');
 
                 if (!empty($titulo) && $titulo !== 'Sin título') {
