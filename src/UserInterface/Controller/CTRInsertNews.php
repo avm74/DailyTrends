@@ -29,7 +29,7 @@ class CTRInsertNews extends AbstractController{
                 return new JsonResponse([
                     'status' => 'error',
                     'message' => 'Payload is mandatory'
-                ], 500);
+                ], 400);
             }
 
             $result = $this->USCInsertNews->__invoke($data);

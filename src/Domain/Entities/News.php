@@ -49,6 +49,11 @@ class News
     public function getCreatedAt(): ?\DateTimeInterface { return $this->createdAt; }
     public function getUpdatedAt(): ?\DateTimeInterface { return $this->updatedAt; }
 
+    public function setTitle(string $title): void { $this->title = $title; }
+    public function setUrl(string $url): void { $this->url = $url; }
+    public function setSummary(string $summary): void { $this->summary = $summary; }
+    public function setSource(string $source): void { $this->source = $source; }
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
