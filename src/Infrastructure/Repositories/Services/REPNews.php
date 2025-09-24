@@ -65,4 +65,13 @@ class REPNews implements IFCNews{
 
     }
 
+    public function getAllNews(): array
+    {
+        $news = $this->entityManagerInterface->getRepository(News::class)->findAll();
+
+        return array_map(function($newsItem) {
+            return $newsItem->toArray();
+        }, $news);
+    }
+
 }

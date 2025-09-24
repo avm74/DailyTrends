@@ -61,4 +61,17 @@ class News
     {
         $this->updatedAt = new \DateTime();
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'url' => $this->url,
+            'title' => $this->title,
+            'summary' => $this->summary,
+            'source' => $this->source,
+            'createdAt' => $this->createdAt?->format('Y-m-d H:i:s'),
+            'updatedAt' => $this->updatedAt?->format('Y-m-d H:i:s')
+        ];
+    }
 }
