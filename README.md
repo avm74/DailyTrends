@@ -12,7 +12,7 @@ Obtiene las 5 noticias principales de El País y El Mundo y las almacena automá
 
 -   /feeds [GET]
 
-Simplemente obtiene todas las noticias almacenadas en la tabla "news".
+Obtiene todas las noticias almacenadas en la tabla "news".
 
 -   /feeds/{id} [GET]
 
