@@ -19,13 +19,5 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Application\FetchTopNews:
-        arguments:
-            $scrapers: !tagged_iterator app.scraper
-            $newsRepository: '@App\Infrastructure\Persistence\DoctrineNewsRepository'
-
-    App\Infrastructure\Scraper\ElPaisScraper:
-        tags: ["app.scraper"]
-
-    App\Infrastructure\Scraper\ElMundoScraper:
-        tags: ["app.scraper"]
+    App\Domain\Contracts\IFCScraper:
+        alias: App\Infrastructure\Repositories\REPElPaisScraper

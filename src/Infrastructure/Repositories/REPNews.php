@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Repositories\Services;
+namespace App\Infrastructure\Repositories;
 
 use App\Domain\Contracts\IFCNews;
 use App\Domain\Entities\News;
@@ -19,6 +19,7 @@ class REPNews implements IFCNews{
     {
         $toPersist = [];
         $notToPersist = [];
+        $processedUrls = [];
 
         foreach($news as $new){
 
@@ -60,6 +61,14 @@ class REPNews implements IFCNews{
                 continue;
             }
 
+            if (in_array($url, $processedUrls)) {
+                $notToPersist[] = [
+                    "new" => $new,
+                    "reason" => "Duplicated URL in the same batch"
+                ];
+                continue;
+            }
+
             $existingNew = $this->entityManagerInterface->getRepository(News::class)->findOneBy(['url' => $url]);
 
             if ($existingNew) {
@@ -74,6 +83,7 @@ class REPNews implements IFCNews{
 
             $this->entityManagerInterface->persist($newToPersist);
             $toPersist[] = $new;
+            $processedUrls[] = $url;
 
         }
 

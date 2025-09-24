@@ -4,7 +4,7 @@ namespace App\UserInterface\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Application\UseCases\USCGetOneNew;
-use App\Infrastructure\Repositories\Services\SVCValidateIdParam;
+use App\Infrastructure\Services\SVCValidateIdParam;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
