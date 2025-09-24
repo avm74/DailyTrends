@@ -7,4 +7,5 @@ interface IFCNews{
     public function getAllNews(): array;
     public function getNewById(int $id): ?array;
     public function updateNew(int $id, array $data): ?array;
+    public function deleteNew(int $id): bool;
 }

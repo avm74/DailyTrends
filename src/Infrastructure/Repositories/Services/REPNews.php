@@ -160,4 +160,18 @@ class REPNews implements IFCNews{
         return $news->toArray();
     }
 
+    public function deleteNew(int $id): bool
+    {
+        $news = $this->entityManagerInterface->getRepository(News::class)->find($id);
+
+        if (!$news) {
+            return false;
+        }
+
+        $this->entityManagerInterface->remove($news);
+        $this->entityManagerInterface->flush();
+
+        return true;
+    }
+
 }
