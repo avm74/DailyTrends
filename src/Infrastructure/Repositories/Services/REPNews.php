@@ -70,10 +70,8 @@ class REPNews implements IFCNews{
                 continue;
             }
 
-            // Crear nueva entidad News
             $newToPersist = new News($title, $url, $summary, $source);
 
-            // Guardar en la base de datos
             $this->entityManagerInterface->persist($newToPersist);
             $toPersist[] = $new;
 
