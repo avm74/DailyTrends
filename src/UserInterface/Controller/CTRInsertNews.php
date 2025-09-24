@@ -18,7 +18,7 @@ class CTRInsertNews extends AbstractController{
 
     }
 
-    #[Route('/feeds', name: 'insert_news', methods: ['POST'])]
+    #[Route('/api/feeds', name: 'insert_news', methods: ['POST'])]
     public function __invoke(Request $request){
 
         try{

@@ -21,7 +21,7 @@ class CTRGetOneNew extends AbstractController{
         $this->SVCValidateIdParam = $SVCValidateIdParam;
     }
 
-    #[Route('/feeds/{id}', name: 'get_one_new', methods: ['GET'])]
+    #[Route('/api/feeds/{id}', name: 'get_one_new', methods: ['GET'])]
     public function __invoke(string $id): JsonResponse
     {
         try{

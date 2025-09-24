@@ -15,7 +15,7 @@ class CTRGetNews extends AbstractController{
         $this->USCGetNews = $USCGetNews;
     }
 
-    #[Route('/feeds', name: 'get_news', methods: ['GET'])]
+    #[Route('/api/feeds', name: 'get_news', methods: ['GET'])]
     public function __invoke(): JsonResponse
     {
         try{

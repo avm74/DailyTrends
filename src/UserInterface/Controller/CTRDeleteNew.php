@@ -21,7 +21,7 @@ class CTRDeleteNew extends AbstractController{
         $this->SVCValidateIdParam = $SVCValidateIdParam;
     }
 
-    #[Route('/feeds/{id}', name: 'delete_new', methods: ['DELETE'])]
+    #[Route('/api/feeds/{id}', name: 'delete_new', methods: ['DELETE'])]
     public function __invoke(string $id): JsonResponse
     {
         try{

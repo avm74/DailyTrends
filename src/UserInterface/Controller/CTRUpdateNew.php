@@ -22,7 +22,7 @@ class CTRUpdateNew extends AbstractController{
         $this->SVCValidateIdParam = $SVCValidateIdParam;
     }
 
-    #[Route('/feeds/{id}', name: 'update_new', methods: ['PUT'])]
+    #[Route('/api/feeds/{id}', name: 'update_new', methods: ['PUT'])]
     public function __invoke(string $id, Request $request): JsonResponse
     {
         try{
