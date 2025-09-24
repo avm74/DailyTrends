@@ -1,3 +1,39 @@
+# Documentación básica de endpoints
+
+## Prefijo
+
+Todas las rutas de la api se encuentran bajo el prefijo '/api'
+
+## Endpoints
+
+-   /scrap [GET]
+
+Obtiene las 5 noticias principales de El País y El Mundo y las almacena automáticamente en base de datos en la tabla "news". Devuelve una respuesta con las noticias que se han obtenido. En caso de que las noticias ya existieran en base de datos (el campo 'url' es único) se omite la inserción de las repetidas y se devuelven como respuesta aquellas que no estuvieran almacenadas.
+
+-   /feeds [GET]
+
+Simplemente obtiene todas las noticias almacenadas en la tabla "news".
+
+-   /feeds/{id} [GET]
+
+Obtiene una noticia de la tabla "news" buscándola por su id (primary key)
+
+-   /feeds [POST]
+
+Admite un array de noticias que se añadirán a la tabla "news". Si no es posible insertar alguna de las noticias del payload, la ejecución continua, buscando cualquier otra inserción que se pueda completar con éxito. Devuelve una respuesta con aquellas noticias que se han podido insertar y con aquellas que no, junto al motivo del error.
+
+-   /feeds/{id} [PUT]
+
+Permite modificar uno o varios campos de una noticia localizada por su id.
+
+-   /feeds/{id} [DELETE]
+
+Permite eliminar una noticia localizada por su id.
+
+## Final de la documentación adicional
+
+A partir de aquí, el contenido del README es el original. ¡Gracias por la atención!
+
 # CASFID – Reto Técnico Backend (DailyTrends)
 
 ¡Bienvenido/a al reto técnico de CASFID!
@@ -20,35 +56,35 @@ Según indicación del reclutador, realizarás únicamente la Parte 1 (1 día), 
 
 ### Parte 1 – Web Scraping y almacenamiento: 1 día
 
-- Obtener las 5 noticias principales de hoy de El País y El Mundo (sin usar RSS).
-- Guardarlas automáticamente en MongoDB/MySQL (con o sin ODM/ORM).
-- Implementar arquitectura limpia (controladores, servicios, repositorios, documentos).
-- Polimorfismo obligatorio: cada periódico tendrá su propio scraper.
-- Manejo de errores robusto.
+-   Obtener las 5 noticias principales de hoy de El País y El Mundo (sin usar RSS).
+-   Guardarlas automáticamente en MongoDB/MySQL (con o sin ODM/ORM).
+-   Implementar arquitectura limpia (controladores, servicios, repositorios, documentos).
+-   Polimorfismo obligatorio: cada periódico tendrá su propio scraper.
+-   Manejo de errores robusto.
 
 ### Parte 2 – API REST CRUD: +2 días (total: 3 días)
 
 Implementar los endpoints para gestionar noticias (`Feed`):
 
-- `GET /feeds`
-- `GET /feeds/{id}`
-- `POST /feeds`
-- `PUT /feeds/{id}`
-- `DELETE /feeds/{id}`
+-   `GET /feeds`
+-   `GET /feeds/{id}`
+-   `POST /feeds`
+-   `PUT /feeds/{id}`
+-   `DELETE /feeds/{id}`
 
 Requisitos:
 
-- Validación de datos
-- Separación de responsabilidades
-- Buenas prácticas (SOLID, inyección de dependencias, DTOs…)
+-   Validación de datos
+-   Separación de responsabilidades
+-   Buenas prácticas (SOLID, inyección de dependencias, DTOs…)
 
 ### Parte 3 – Tests, Documentación y Arquitectura: +2 días (total: 5 días)
 
-- Pruebas unitarias (scrapers, repositorios…)
-- Pruebas funcionales (endpoints)
-- Documentación Swagger/OpenAPI
-- Diagrama simple de arquitectura
-- `README.md` con instrucciones, arquitectura y tests
+-   Pruebas unitarias (scrapers, repositorios…)
+-   Pruebas funcionales (endpoints)
+-   Documentación Swagger/OpenAPI
+-   Diagrama simple de arquitectura
+-   `README.md` con instrucciones, arquitectura y tests
 
 ---
 
@@ -58,26 +94,25 @@ El proyecto ya incluye una configuración **Docker lista para usar**, con PHP 8.
 
 Además, tienes la opción de elegir entre **MySQL** y **MongoDB** que ya están configurados en Docker:
 
-- **MySQL**: Accesible a través de PHPMyAdmin en el puerto 8889
-    - Usuario phpMyAdmin: `root`
-    - Contraseña: `password`
-- **MongoDB**: Accesible a través de Mongo Express en el puerto 8081
-  - Usuario de Mongo Express: `admin`
-  - Contraseña: `pass`
+-   **MySQL**: Accesible a través de PHPMyAdmin en el puerto 8889
+    -   Usuario phpMyAdmin: `root`
+    -   Contraseña: `password`
+-   **MongoDB**: Accesible a través de Mongo Express en el puerto 8081
+    -   Usuario de Mongo Express: `admin`
+    -   Contraseña: `pass`
 
 Solo debes definir las variables de entorno `UID` y `UNAME` según tu propia configuración local.
 De esta forma compartirás los mismos permisos al utilizar Symfony CLI dentro del contenedor de Docker.
 
-
 ## Criterios de Evaluación
 
-- **Limpieza y claridad del código**
-- **Modularidad y mantenimiento a largo plazo**
-- **Uso adecuado de Symfony y sus componentes**
-- **Calidad y resiliencia del scraping**
-- **Diseño orientado a objetos y uso de patrones**
-- **Desacoplamiento de componentes**
-- **Cobertura de tests y calidad de la documentación**
+-   **Limpieza y claridad del código**
+-   **Modularidad y mantenimiento a largo plazo**
+-   **Uso adecuado de Symfony y sus componentes**
+-   **Calidad y resiliencia del scraping**
+-   **Diseño orientado a objetos y uso de patrones**
+-   **Desacoplamiento de componentes**
+-   **Cobertura de tests y calidad de la documentación**
 
 ---
 
@@ -89,9 +124,9 @@ Presta especial atención al control de errores, al desacoplamiento y con la vis
 
 ## Entrega
 
-- Sube el proyecto a un **repositorio público** (GitHub, GitLab, etc.).
-- Realiza **commits descriptivos y frecuentes**, documentando cada avance.
-- Comparte el enlace con el equipo técnico de **CASFID**.
+-   Sube el proyecto a un **repositorio público** (GitHub, GitLab, etc.).
+-   Realiza **commits descriptivos y frecuentes**, documentando cada avance.
+-   Comparte el enlace con el equipo técnico de **CASFID**.
 
 ---
 
