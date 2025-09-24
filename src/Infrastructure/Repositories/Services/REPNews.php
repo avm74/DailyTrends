@@ -22,15 +22,40 @@ class REPNews implements IFCNews{
 
         foreach($news as $new){
 
+            $allowedFields = ['title', 'url', 'summary', 'source'];
+            $invalidFields = [];
+
+            foreach ($new as $field => $value) {
+                if (!in_array($field, $allowedFields)) {
+                    $invalidFields[] = $field;
+                }
+            }
+
+            if (!empty($invalidFields)) {
+                $notToPersist[] = [
+                    "new" => $new,
+                    "reason" => "Invalid field(s): " . implode(', ', $invalidFields) . " don't exist and can't be inserted"
+                ];
+                continue;
+            }
+
+            if (!isset($new['url']) || !isset($new['title']) || !isset($new['summary']) || !isset($new['source'])) {
+                $notToPersist[] = [
+                    "new" => $new,
+                    "reason" => "Missing required fields"
+                ];
+                continue;
+            }
+
             $url = trim($new['url']);
-            $title = trim($new['source']);
+            $title = trim($new['title']);
             $summary = trim($new['summary']);
-            $source = trim($new['title']);
+            $source = trim($new['source']);
 
             if(!$url || !$title || !$summary || !$source){
                 $notToPersist[] = [
                     "new" => $new,
-                    "reason" => "Missing fields"
+                    "reason" => "Empty fields"
                 ];
                 continue;
             }
