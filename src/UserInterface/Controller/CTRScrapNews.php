@@ -24,7 +24,7 @@ class CTRScrapNews extends AbstractController{
             return new JsonResponse([
                 'status' => 'success',
                 'data' => $result,
-                'message' => 'News scraped successfully'
+                'message' => count($result) > 0 ? 'News scraped successfully' : 'No more news to scrap!'
             ], 200);
 
         }catch(\Throwable $e){
