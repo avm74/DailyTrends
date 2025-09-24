@@ -4,15 +4,21 @@ namespace App\UserInterface\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Application\UseCases\USCGetOneNew;
+use App\Infrastructure\Repositories\Services\SVCValidateIdParam;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CTRGetOneNew extends AbstractController{
 
     private USCGetOneNew $USCGetOneNew;
+    private SVCValidateIdParam $SVCValidateIdParam;
 
-    public function __construct(USCGetOneNew $USCGetOneNew){
+    public function __construct(
+        USCGetOneNew $USCGetOneNew,
+        SVCValidateIdParam $SVCValidateIdParam
+    ){
         $this->USCGetOneNew = $USCGetOneNew;
+        $this->SVCValidateIdParam = $SVCValidateIdParam;
     }
 
     #[Route('/feeds/{id}', name: 'get_one_new', methods: ['GET'])]
@@ -20,23 +26,9 @@ class CTRGetOneNew extends AbstractController{
     {
         try{
 
-            if (!is_numeric($id) || !ctype_digit($id)) {
-                return new JsonResponse([
-                    'status' => 'error',
-                    'message' => 'Invalid ID. ID must be a positive integer'
-                ], 400);
-            }
+            $validatedId = $this->SVCValidateIdParam->validate($id);
 
-            $id = (int) $id;
-
-            if ($id <= 0) {
-                return new JsonResponse([
-                    'status' => 'error',
-                    'message' => 'Invalid ID. ID must be a positive number'
-                ], 400);
-            }
-
-            $result = $this->USCGetOneNew->__invoke($id);
+            $result = $this->USCGetOneNew->__invoke($validatedId);
 
             if (!$result) {
                 return new JsonResponse([
@@ -50,6 +42,11 @@ class CTRGetOneNew extends AbstractController{
                 'data' => $result
             ], 200);
 
+        }catch(\InvalidArgumentException $e){
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 400);
         }catch(\Throwable $e){
             return new JsonResponse([
                 'status' => 'error',

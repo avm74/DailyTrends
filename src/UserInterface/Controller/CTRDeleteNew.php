@@ -4,15 +4,21 @@ namespace App\UserInterface\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Application\UseCases\USCDeleteNew;
+use App\Infrastructure\Repositories\Services\SVCValidateIdParam;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CTRDeleteNew extends AbstractController{
 
     private USCDeleteNew $USCDeleteNew;
+    private SVCValidateIdParam $SVCValidateIdParam;
 
-    public function __construct(USCDeleteNew $USCDeleteNew){
+    public function __construct(
+        USCDeleteNew $USCDeleteNew,
+        SVCValidateIdParam $SVCValidateIdParam
+        ){
         $this->USCDeleteNew = $USCDeleteNew;
+        $this->SVCValidateIdParam = $SVCValidateIdParam;
     }
 
     #[Route('/feeds/{id}', name: 'delete_new', methods: ['DELETE'])]
@@ -20,23 +26,9 @@ class CTRDeleteNew extends AbstractController{
     {
         try{
 
-            if (!is_numeric($id) || !ctype_digit($id)) {
-                return new JsonResponse([
-                    'status' => 'error',
-                    'message' => 'Invalid ID. ID must be a positive integer'
-                ], 400);
-            }
+            $validatedId = $this->SVCValidateIdParam->validate($id);
 
-            $id = (int) $id;
-
-            if ($id <= 0) {
-                return new JsonResponse([
-                    'status' => 'error',
-                    'message' => 'Invalid ID. ID must be a positive number'
-                ], 400);
-            }
-
-            $result = $this->USCDeleteNew->__invoke($id);
+            $result = $this->USCDeleteNew->__invoke($validatedId);
 
             if (!$result) {
                 return new JsonResponse([
@@ -50,6 +42,11 @@ class CTRDeleteNew extends AbstractController{
                 'message' => 'New deleted successfully'
             ], 200);
 
+        }catch(\InvalidArgumentException $e){
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 400);
         }catch(\Throwable $e){
             return new JsonResponse([
                 'status' => 'error',

@@ -4,6 +4,7 @@ namespace App\UserInterface\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Application\UseCases\USCUpdateNew;
+use App\Infrastructure\Repositories\Services\SVCValidateIdParam;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,9 +12,14 @@ use Symfony\Component\HttpFoundation\Request;
 class CTRUpdateNew extends AbstractController{
 
     private USCUpdateNew $USCUpdateNew;
+    private SVCValidateIdParam $SVCValidateIdParam;
 
-    public function __construct(USCUpdateNew $USCUpdateNew){
+    public function __construct(
+        USCUpdateNew $USCUpdateNew,
+        SVCValidateIdParam $SVCValidateIdParam
+    ){
         $this->USCUpdateNew = $USCUpdateNew;
+        $this->SVCValidateIdParam = $SVCValidateIdParam;
     }
 
     #[Route('/feeds/{id}', name: 'update_new', methods: ['PUT'])]
@@ -21,21 +27,7 @@ class CTRUpdateNew extends AbstractController{
     {
         try{
 
-            if (!is_numeric($id) || !ctype_digit($id)) {
-                return new JsonResponse([
-                    'status' => 'error',
-                    'message' => 'Invalid ID. ID must be a positive integer'
-                ], 400);
-            }
-
-            $id = (int) $id;
-
-            if ($id <= 0) {
-                return new JsonResponse([
-                    'status' => 'error',
-                    'message' => 'Invalid ID. ID must be a positive number'
-                ], 400);
-            }
+            $validatedId = $this->SVCValidateIdParam->validate($id);
 
             $data = json_decode($request->getContent(), true);
 
@@ -46,7 +38,7 @@ class CTRUpdateNew extends AbstractController{
                 ], 400);
             }
 
-            $result = $this->USCUpdateNew->__invoke($id, $data);
+            $result = $this->USCUpdateNew->__invoke($validatedId, $data);
 
             if (!$result) {
                 return new JsonResponse([
