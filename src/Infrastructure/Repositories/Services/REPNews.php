@@ -74,4 +74,15 @@ class REPNews implements IFCNews{
         }, $news);
     }
 
+    public function getNewById(int $id): ?array
+    {
+        $news = $this->entityManagerInterface->getRepository(News::class)->find($id);
+
+        if (!$news) {
+            return null;
+        }
+
+        return $news->toArray();
+    }
+
 }
